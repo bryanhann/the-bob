@@ -1,0 +1,9 @@
+[ ! "$0" == "./install" ] && echo try ./install && exit
+cat > ~/.local/bin/bob <<EOF
+$PWD/bob \$*
+exit \$?
+EOF
+chmod +x ~/.local/bin/bob
+echo Bob is installed to [~/.local/bin/bob].
+echo Respect the bob.
+

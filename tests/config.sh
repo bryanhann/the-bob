@@ -7,7 +7,6 @@ function test_end {
 	echo "Ran $TESTED test(s) with $FAILED failures(s)."
 }
 
-
 function backspace {
 echo -e -n "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
 echo -e -n "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
@@ -38,4 +37,19 @@ function runtest {
 	export FAILED=$(( $FAILED + 1 ))
 }
 
+function testdir {
+	# confirm that $1 is a writeable directory 
+	# in which an executable script can be placed.
 
+	DIR=$1
+	[ ! "$DIR" == "" ] || return 10
+	[ -d "$DIR"      ] || return 20
+
+	NAME=$RANDOM
+	SCRIPT=$DIR/$NAME
+
+	touch $SCRIPT || return 30
+	chmod +x $SCRIPT || return 40
+	$SCRIPT || return 50
+	rm $SCRIPT
+}

@@ -1,0 +1,9 @@
+[ ! "$0" == "./test" ] && echo "try './test'" && exit
+
+source tests/config.sh
+
+test_begin
+
+source ./tests/tests_1
+
+test_end

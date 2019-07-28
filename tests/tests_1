@@ -1,0 +1,22 @@
+info "BEGIN TESTING THE ENVIRONMENT"
+info "found: [\$TEMP] is [$TEMP]"
+info "found: [\$TMP] is [$TMP]"
+
+runtest \
+	"Expect: [\$TMP]==[\$TEMP]" \
+	"[ .$TMP == .$TEMP  ]"\
+	0
+
+runtest \
+	"Expect: [\$TMP] is directory" \
+	"[ -d $TMP ]"\
+	0
+
+
+info "BEGIN TESTING THE TESTING FRAMEWORK"
+
+runtest\
+	"test return_with()" \
+	"return_with 42"\
+	42
+

@@ -1,6 +1,6 @@
 [ ! "$0" == "./install" ] && echo try ./install && exit
 cat > ~/.local/bin/bob <<EOF
-$PWD/bob \$*
+$PWD/scripts/bob.sh \$*
 exit \$?
 EOF
 chmod +x ~/.local/bin/bob

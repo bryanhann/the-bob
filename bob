@@ -1,3 +1,0 @@
-export BOB=`dirname $0`
-$BOB/scripts/bob.sh $*
-exit $?

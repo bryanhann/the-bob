@@ -1,3 +1,4 @@
+BOB=$( dirname $( dirname $0 ) )
 function bob.help () {
 	echo Usage: 
 	echo "    bob CLIENT"

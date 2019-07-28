@@ -1,0 +1,65 @@
+function ut_desc { export ut_USER_DESC=$1 ; }
+function ut_expr { export ut_USER_EXPR=$* ; }
+function ut_err  { export ut_USER_ERR=$1  ; }
+function ut_out  { export ut_USER_OUT=$1  ; }
+function ut_show { set | grep ^ut_[A-Z]   ; }
+
+function ut_new {
+	unset ut_USER_DESC
+	unset ut_USER_EXPR
+	unset ut_USER_ERR
+	unset ut_USER_OUT
+	unset ut_TEST_ERR
+	unset ut_TEST_OUT
+}
+
+function ut {
+	ut_new
+	while [ ! "$1" == "" ]; do
+		if [ "$1" == "-e" ]; then ut_err "$2" ; shift 2 ; continue ; fi
+		if [ "$1" == "-o" ]; then ut_out "$2" ; shift 2 ; continue ; fi
+		if [ "$1" == "-d" ]; then ut_desc "$2"; shift 2 ; continue ; fi
+		if [ "$1" == "-t" ]; then ut_expr "$2"; shift 2 ; continue ; fi
+		if [    . == .    ]; then shift ; continue ; fi
+	done
+	ut_exec
+}
+
+function __ok_out {
+	[ ! -v ut_USER_OUT ] && return 0
+        [ "$ut_USER_OUT" == "$ut_TEST_OUT" ] && return 0
+	return 1
+}
+
+function __ok_err {
+	[ ! -v ut_USER_ERR ] && return 0
+      	[ "$ut_USER_ERR" == "$ut_TEST_ERR" ] && return 0
+	return 1
+}
+function __fail {
+	! __ok_out && return 0
+	! __ok_err && return 0
+	[ ! -v ut_USER_ERR ] && [ ! "$ut_TEST_ERR" == "0" ] && return 0	
+	return 1
+}
+
+function ut_exec { 
+
+	[ -v ut_USER_ERR ]  || ut_err 0
+	[ -v ut_USER_DESC ] || ut_desc "Anonymous Test"
+	echo
+	echo Runtest: $ut_USER_DESC 
+
+	ut_TEST_OUT=$( eval $ut_USER_EXPR )
+	ut_TEST_ERR=$?
+
+	__fail && echo "[FAIL]" || echo "[PASS]"
+
+	[ "" == "" ]       && echo "        \$( $ut_USER_EXPR )"
+	[ -v ut_USER_ERR ] && echo "        -e $ut_USER_ERR"
+	[ -v ut_USER_OUT ] && echo "        -o $ut_USER_OUT"
+	
+	__ok_out          || echo "        unexpected out: [$ut_TEST_OUT]"
+	__ok_err          || echo "        unexpected err: [$ut_TEST_ERR]"
+}
+

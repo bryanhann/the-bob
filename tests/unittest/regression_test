@@ -1,0 +1,2 @@
+./tests > o
+diff o out.old && rm o

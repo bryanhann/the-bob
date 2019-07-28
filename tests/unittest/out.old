@@ -1,0 +1,63 @@
+
+Runtest: Call without -e is like -e 0
+[FAIL]
+        $( FN 'the answer' 42 )
+        -e 0
+        unexpected err: [42]
+
+Runtest: Call with -e 0
+[FAIL]
+        $( FN 'the answer' 42 )
+        -e 0
+        unexpected err: [42]
+
+Runtest: Call with -e 41
+[FAIL]
+        $( FN 'the answer' 42 )
+        -e 41
+        unexpected err: [42]
+
+Runtest: Call with -e 42
+[PASS]
+        $( FN 'the answer' 42 )
+        -e 42
+
+Runtest: Call with good -e good -o
+[PASS]
+        $( FN 'the answer' 42 )
+        -e 42
+        -o the answer
+
+Runtest: Call with good -e bad -o
+[FAIL]
+        $( FN 'the answer' 42 )
+        -e 42
+        -o an answer
+        unexpected out: [the answer]
+
+Runtest: Call with bad -e good -o
+[FAIL]
+        $( FN 'the answer' 42 )
+        -e 43
+        -o the answer
+        unexpected err: [42]
+
+Runtest: Call with bad -e bad -o
+[FAIL]
+        $( FN 'the answer' 42 )
+        -e 43
+        -o an answer
+        unexpected out: [the answer]
+        unexpected err: [42]
+
+Runtest: Calling with -e 42
+[PASS]
+        $( FN 'the answer' 42 )
+        -e 42
+        -o the answer
+
+Runtest: Calling with -e 42
+[PASS]
+        $( FN 'the answer' 42 )
+        -e 42
+        -o the answer

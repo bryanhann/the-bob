@@ -1,0 +1,93 @@
+. ut
+
+
+
+function FN {
+	echo $1
+	return $2
+}
+
+
+AA="FN 'the answer' 42"
+
+ut -t "FN 'the answer' 42" -d "Call without -e is like -e 0"
+ut -t "FN 'the answer' 42" -d "Call with -e 0"               -e 0 
+ut -t "FN 'the answer' 42" -d "Call with -e 41"              -e 41
+ut -t "FN 'the answer' 42" -d "Call with -e 42"  -e 42
+ut -t "FN 'the answer' 42" -d "Call with good -e good -o" -e 42 -o 'the answer'
+ut -t "FN 'the answer' 42" -d "Call with good -e bad  -o" -e 42 -o 'an answer'
+ut -t "FN 'the answer' 42" -d "Call with bad  -e good -o" -e 43 -o 'the answer'
+ut -t "FN 'the answer' 42" -d "Call with bad  -e bad  -o" -e 43 -o 'an answer'
+ut -t "FN 'the answer' 42" -d "Calling with -e 42"  -e 42 -o 'the answer'
+ut -t "$AA" -d "Calling with -e 42"  -e 42 -o 'the answer'
+
+
+
+exit
+ut_new
+ut_expr "echo_return \"the answer\" 42"
+ut_exec
+
+ut_new
+ut_desc "invoking with []"
+ut_expr "echo_return \"the answer\" 42"
+ut_exec
+
+exit
+ut_new
+ut_err 0
+ut_desc "invoking with [-e 0]"
+ut_expr "echo_return \"the answer\" 42"
+ut_exec
+
+ut_new
+ut_err  
+ut_desc "invoking with [-e 42]"
+ut_expr "echo_return \"the answer\" 42"
+ut_exec
+
+ut_new
+ut_err 42 
+ut_desc "invoking with [-e 42]"
+ut_expr "echo_return \"the answer\" 42"
+ut_exec
+
+
+ut_info ----------------------------------------------------------------------
+ut_info "If the --out option is not used, it is not checked"
+ut_info ----------------------------------------------------------------------
+
+ut_new
+ut_err 42 
+ut_out 'the answer'
+ut_desc "invoking with [-e 42 -o 'the answer']"
+ut_expr "echo_return \"the answer\" 42"
+ut_exec
+
+
+ut_new
+ut_err 42 
+ut_out 'an answer'
+ut_desc "invoking with [-e 42 -o 'an answer']"
+ut_expr "echo_return \"the answer\" 42"
+ut_exec
+
+
+ut_new
+ut_err 42 
+ut_out 
+ut_desc "invoking with [-e 42 -o]"
+ut_expr "echo_return \"the answer\" 42"
+ut_exec
+
+
+
+
+
+
+
+
+
+
+
+

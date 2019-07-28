@@ -13,6 +13,11 @@ runtest \
 	"testdir $TMP"\
 	0
 
+runtest \
+	"\$HOME/.local/bin is directory" \
+	"testdir $HOME/.local/bin"\
+	0
+
 info "BEGIN TESTING THE TESTING FRAMEWORK"
 
 runtest\

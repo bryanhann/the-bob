@@ -24,7 +24,17 @@ function return_with {
 function runtest {
 	des=$1
 	cmd=$2	
-	exp=$3
+	exp=0
+	while [ ! "$3" == "" ]; do
+		if [ "$3" == "--err" ]; then
+			exp=$4
+			shift 2
+			continue
+		fi
+		shift
+	done
+
+        
 	echo -n [....] $des
 	eval $cmd
 	got=$?

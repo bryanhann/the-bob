@@ -6,22 +6,22 @@ info "found: \$TMP is ${TMP}"
 runtest \
 	"\$TMP is \$TEMP" \
 	"[ .$TMP == .$TEMP  ]"\
-	0
+	
 
 runtest \
 	"\$TMP is directory" \
 	"testdir $TMP"\
-	0
+	
 
 runtest \
 	"\$HOME/.local/bin is directory" \
 	"testdir $HOME/.local/bin"\
-	0
+	
 
 info "BEGIN TESTING THE TESTING FRAMEWORK"
 
 runtest\
 	"test return_with()" \
 	"return_with 42"\
-	42
+	--err 42
 

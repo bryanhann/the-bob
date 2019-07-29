@@ -1,12 +1,18 @@
 . ut
 
-
+function life {
+	echo the answer
+	exit 42
+}
 
 function FN {
 	echo $1
 	return $2
 }
 
+#ut -t life
+
+#exit
 
 AA="FN 'the answer' 42"
 

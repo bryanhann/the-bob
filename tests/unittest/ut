@@ -1,3 +1,31 @@
+# check if stdout is a terminal...
+if test -t 1; then
+
+    # see if it supports colors...
+    ncolors=$(tput colors)
+
+    if test -n "$ncolors" && test $ncolors -ge 8; then
+        bold="$(tput bold)"
+        underline="$(tput smul)"
+        standout="$(tput smso)"
+        normal="$(tput sgr0)"
+        black="$(tput setaf 0)"
+        red="$(tput setaf 1)"
+        green="$(tput setaf 2)"
+        yellow="$(tput setaf 3)"
+        blue="$(tput setaf 4)"
+        magenta="$(tput setaf 5)"
+        cyan="$(tput setaf 6)"
+        white="$(tput setaf 7)"
+    fi
+fi
+if [ -t 1 ]; then 
+	export BOLD=$( tput bold )
+	export NORMAL=$( tput sgr0 )
+else
+	unset BOLD
+	unset NORMAL
+fi
 function ut_desc { export ut_USER_DESC=$1 ; }
 function ut_expr { export ut_USER_EXPR=$* ; }
 function ut_err  { export ut_USER_ERR=$1  ; }
@@ -48,12 +76,25 @@ function ut_exec {
 	[ -v ut_USER_ERR ]  || ut_err 0
 	[ -v ut_USER_DESC ] || ut_desc "Anonymous Test"
 	echo
-	echo Runtest: $ut_USER_DESC 
-
+	if [ -t 1 ]; then
+		#we are at a tty
+		echo -n [....] Runtest: $ut_USER_DESC 
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+	else
+		echo Runtest: $ut_USER_DESC 
+	fi	
 	ut_TEST_OUT=$( eval $ut_USER_EXPR )
 	ut_TEST_ERR=$?
 
-	__fail && echo "[FAIL]" || echo "[PASS]"
+	__fail && echo "[${BOLD}${red}FAIL${NORMAL}]" || echo "[PASS]"
 
 	[ "" == "" ]       && echo "        \$( $ut_USER_EXPR )"
 	[ -v ut_USER_ERR ] && echo "        -e $ut_USER_ERR"

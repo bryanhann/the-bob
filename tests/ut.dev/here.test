@@ -1,3 +1,7 @@
+source $BOB/activate
+require runhere
+runhere $* && exit
+
 source ./here.source/ut
 
 function life {

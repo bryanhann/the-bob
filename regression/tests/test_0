@@ -1,4 +1,6 @@
-source $BOB/tests/source/config.sh
+source $BOB/activate
+require archaic_config
+#source $BOB/tests/source/config.sh
 info "BEGIN TESTING THE ENVIRONMENT"
 info "found: \$TEMP is ${TEMP}"
 info "found: \$TMP is ${TMP}"

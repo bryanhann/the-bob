@@ -1,5 +1,3 @@
-[ ! "$0" == "./test" ] && echo "try './test'" && exit
-source ./activate
-#source $BOB/tests/source/config.sh
-#$BOB/tests/test
-$BOB/tests/regress $BOB/tests/tests_1.regress
+source $BOB/activate
+require regression
+regress $BOB/tests/tests_1.regress

@@ -1,0 +1,32 @@
+# run regression test 
+
+function regress {
+	RESULTS=${BOB}/regression/results
+	mkdir -p $RESULTS
+
+	if [ -z $1 ] || [ ! -x $1 ]; then
+		 echo _regress: not executable: [$1]
+		 return 1
+	fi
+
+	FULLNAME=$1
+	BASENAME=$( basename $FULLNAME )
+	OLD=${RESULTS}/${BASENAME}.old
+	NEW=${RESULTS}/${BASENAME}.tmp
+
+	$FULLNAME > $NEW
+
+	if [ ! -f $OLD ]; then
+		echo storing new test result 
+		cp $NEW $OLD
+	fi
+
+	if diff $OLD $NEW 
+	then
+		echo [pass] regression test: $FULLNAME
+		return 0
+	else
+		echo [fail] regression test: $FULLNAME
+		return 1
+	fi
+}

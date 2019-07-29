@@ -1,0 +1,14 @@
+function require {
+	if [ -z $1 ]
+	then
+		echo arg required
+	elif [ -f $BOB/require/$1 ]
+	then
+		source $BOB/require/$1
+	elif [ -f $BOB/require/$1/__init__ ]
+	then
+		source $BOB/require/$1/__init__
+	else
+		echo require: cannot source $1
+	fi
+}

@@ -1,1 +1,2 @@
-export BOB=$PWD
+source $BOB/require/__init__
+

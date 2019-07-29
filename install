@@ -1,9 +1,19 @@
 [ ! "$0" == "./install" ] && echo try ./install && exit
-cat > ~/.local/bin/bob <<EOF
-$PWD/scripts/bob.sh \$*
-exit \$?
+
+mkdir -p ~/.local/bin
+cat    > ~/.local/bin/bob <<EOF
+	$PWD/scripts/bob.sh \$*
+	exit \$?
 EOF
 chmod +x ~/.local/bin/bob
+
+mkdir -p ~/.config/bob
+cat    > ~/.config/bob/activate <<ACT
+	export BOB=$PWD
+	source \$BOB/activate
+ACT
+
+
 echo Bob is installed to [~/.local/bin/bob].
 echo Respect the bob.
 

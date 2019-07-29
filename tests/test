@@ -1,7 +1,0 @@
-source $BOB/tests/source/config.sh
-
-test_begin
-
-source $BOB/tests/tests_1
-
-test_end

@@ -1,0 +1,22 @@
+
+info\
+	"[\$TEMP] is [$TEMP]"
+
+info\
+	"[\$TMP] is [$TMP]"
+
+
+runtest \
+	"[\$TMP]==[\$TEMP]" \
+	"[ .$TMP == .$TEMP  ]"\
+	0
+runtest \
+	"[\$TMP] is directory" \
+	"[ -d $TMP ]"\
+	0
+
+runtest\
+	"testing return_with" \
+	"return_with 42"\
+	42
+

@@ -2,8 +2,13 @@
 
 mkdir -p ~/.local/bin
 cat    > ~/.local/bin/bob <<EOF
+if [ \$( basename \$0 ) == "bob" ]
+then
 	$PWD/scripts/bob.sh \$*
 	exit \$?
+else
+	source \$HOME/.config/bob/activate
+fi	
 EOF
 chmod +x ~/.local/bin/bob
 

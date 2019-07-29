@@ -1,8 +1,9 @@
-source $BOB/activate
+. bob
 require runhere
 runhere $* && exit 
 
-source ./source/config.sh
+require archaic_config
+#source ./source/config.sh
 
 test_begin
 

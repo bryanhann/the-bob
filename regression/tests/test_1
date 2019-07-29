@@ -7,6 +7,6 @@ require archaic_config
 
 test_begin
 
-source ./tests/tests_1
+source ./archaic/test
 
 test_end

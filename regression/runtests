@@ -1,0 +1,7 @@
+. bob
+require runhere
+runhere $* && exit
+
+require regression
+regress $PWD/tests/test_0
+regress $PWD/tests/test_1

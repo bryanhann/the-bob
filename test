@@ -1,3 +1,1 @@
-source $BOB/activate
-require regression
-regress $BOB/regression/tests/test_0
+$BOB/regression/runtests

@@ -1,0 +1,11 @@
+source $BOB/activate
+require runhere
+runhere $* && exit 
+
+source ./source/config.sh
+
+test_begin
+
+source ./tests/tests_1
+
+test_end

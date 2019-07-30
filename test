@@ -1,9 +1,3 @@
 [ ! "$0" == "./test" ] && echo "try './test'" && exit
-
-source tests/source/config.sh
-
-test_begin
-
-source ./tests/tests_1
-
-test_end
+source ./activate
+$BOB/tests/test

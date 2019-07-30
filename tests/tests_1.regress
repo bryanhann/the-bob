@@ -1,5 +1,5 @@
+source $BOB/tests/source/config.sh
 info "BEGIN TESTING THE ENVIRONMENT"
-
 info "found: \$TEMP is ${TEMP}"
 info "found: \$TMP is ${TMP}"
 

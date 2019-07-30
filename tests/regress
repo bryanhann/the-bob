@@ -1,0 +1,18 @@
+# run regression test 
+[ "$1" == "" ] && echo $0: testname expected && exit 1
+FULLNAME=$1
+NAME=$( basename $1 )
+OUT=${NAME}.out
+
+TESTS=$BOB/tests
+T=$TESTS/tmp
+E=$TESTS/exp
+
+mkdir -p $T
+mkdir -p $E
+$FULLNAME > $T/$OUT
+[ -f $E/$OUT ] || echo storing new test result
+[ -f $E/$OUT ] || cp $T/$OUT $E/$OUT
+cmp  $E/$OUT $T/$OUT \
+	&& echo [pass] regression test: $1 \
+	|| echo [fail] regression test: $1

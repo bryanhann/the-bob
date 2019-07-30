@@ -1,4 +1,4 @@
-. ut
+source ./here.source/ut
 
 function life {
 	echo the answer

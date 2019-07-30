@@ -1,0 +1,90 @@
+source ./here.source/colors2
+
+function set_oui  { export $1=oui ; }
+function set_non  { export $1=non ; }
+function oui { [ "$1" == "oui" ] || return 1 ; }
+function non { [ "$1" == "non" ] || return 1 ; }
+
+
+function ut_new {
+	# defaults
+	export  ut_UD="An undescribed test"  # test description
+	export  ut_UT=true                   # test expression
+	export  ut_UE=0                      # the expected exit value...
+	set_oui ut_UCE                       # but should we check it? Oui.
+	export  ut_UO=undefined              # the expected output
+	set_non ut_UCO                       # but should we check it? Non.
+	export ut_TE=pending                 # The result error
+	export ut_TO=pending                 # The result output
+}
+
+function ut_desc { export ut_UD=$1 ; }
+function ut_expr { export ut_UT=$* ; }
+function ut_err  { export ut_UE=$1  ; }
+function ut_out  { export ut_UO=$1  ; }
+function ut_show { set | grep ^ut_[A-Z]   ; }
+
+
+function ut {
+	ut_new
+	while [ ! "$1" == "" ]; do
+		if [ "$1" == "-e" ]; then ut_err "$2" ; shift 2 ; continue ; fi
+		if [ "$1" == "-o" ]; then ut_out "$2" ; shift 2 ; continue ; fi
+		if [ "$1" == "-d" ]; then ut_desc "$2"; shift 2 ; continue ; fi
+		if [ "$1" == "-t" ]; then ut_expr "$2"; shift 2 ; continue ; fi
+		if [    . == .    ]; then shift ; continue ; fi
+	done
+	ut_exec
+}
+
+function __ok_out {
+	[ ! -v ut_UO ] && return 0
+        [ "$ut_UO" == "$ut_TO" ] && return 0
+	return 1
+}
+
+function __ok_err {
+	[ ! -v ut_UE ] && return 0
+      	[ "$ut_UE" == "$ut_TE" ] && return 0
+	return 1
+}
+function __fail {
+	! __ok_out && return 0
+	! __ok_err && return 0
+	[ ! -v ut_UE ] && [ ! "$ut_TE" == "0" ] && return 0	
+	return 1
+}
+
+function ut_exec { 
+
+	[ -v ut_UE ]  || ut_err 0
+	[ -v ut_UD ] || ut_desc "Undescribed Test"
+	if [ -t 1 ]; then
+		#we are at a tty
+		echo -n [....] $ut_UD 
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+		echo -n -e "\b\b\b\b\b\b\b\b\b\b\b\b\b"
+	else
+		echo Runtest: $ut_UD 
+	fi	
+	ut_TO=$( eval $ut_UT )
+	ut_TE=$?
+
+	__fail && echo [$(BR fail)] || echo [$(BG pass)]
+
+
+	[ "" == "" ]       && echo "        \$( $(BB eval $ut_UT) )"
+	[ -v ut_UE ] && echo "        -e [$(BB $ut_UE)]"
+	[ -v ut_UO ] && echo "        -o [$ut_UO]"
+	
+	__ok_out          || echo "        unexpected out: [$ut_TO]"
+	__ok_err          || echo "        unexpected err: [$ut_TE]"
+}
+

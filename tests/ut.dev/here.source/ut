@@ -1,4 +1,4 @@
-source ./colors
+source ./here.source/colors
 
 function ut_desc { export ut_USER_DESC=$1 ; }
 function ut_expr { export ut_USER_EXPR=$* ; }

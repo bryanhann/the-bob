@@ -1,0 +1,1 @@
+function require { source $BOB/req.d/$1 ; } 

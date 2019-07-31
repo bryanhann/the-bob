@@ -1,0 +1,18 @@
+# run regression test 
+
+function regress {
+	[ "$1" == "" ] && echo $0: testname expected && return 1
+	FULLNAME=$1
+	NAME=$( basename $1 )
+
+	RESULTS=$BOB/tests/regress/results
+	mkdir -p $RESULTS
+	OUT=$RESULTS/${NAME}.tmp
+	EXP=$RESULTS/${NAME}.exp
+	$FULLNAME > $OUT
+	[ -f $EXP ] || echo storing new test result
+	[ -f $EXP ] || cp $OUT $EXP
+	cmp  $OUT $EXP \
+		&& echo [pass] regression test: $1 \
+		|| echo [fail] regression test: $1
+}

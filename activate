@@ -1,1 +1,3 @@
+source $BOB/req.d/require
+require require
 export BOB=$PWD

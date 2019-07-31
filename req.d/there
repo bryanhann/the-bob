@@ -1,0 +1,6 @@
+function there {
+	pushd $1 > /dev/null || return 1
+	shift
+	$*
+	popd > /dev/null
+}

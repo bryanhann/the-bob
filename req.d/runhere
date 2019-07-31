@@ -1,0 +1,9 @@
+function runhere { 
+	[ "$1" == "--here" ] && return 1
+	pushd $( dirname $0 ) > /dev/null
+        ./$( basename $0 ) --here $*
+	popd > /dev/null
+	return 0
+}
+
+

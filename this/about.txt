@@ -1,0 +1,8 @@
+BOB/this/
+
+Testing that is independant of BOB being installed.
+Use case: ~/bob1 and ~/bob2 are two clones of the repo, 
+perhaps at different commits. If bob1 happens to be 
+installed, one can test bob2 without interference from,
+and without interfering with, the installation of bob1.
+/
